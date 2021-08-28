@@ -1,9 +1,7 @@
 """
 学习用文件
+2021/8/29
 """
-
-
-
 
 import cocos
 from cocos.director import director
