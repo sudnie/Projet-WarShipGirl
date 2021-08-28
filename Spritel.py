@@ -1,3 +1,11 @@
+"""
+学习用文件
+
+"""
+
+
+
+
 import cocos
 from cocos.director import director
 import pyglet
