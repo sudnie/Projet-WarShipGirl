@@ -1,8 +1,6 @@
-from ctypes import create_string_buffer
 import cocos
-from cocos.actions.interval_actions import MoveBy, MoveTo
+from cocos.actions.interval_actions import MoveTo
 from cocos.director import director
-from cocos.layer.util_layers import ColorLayer
 from pyglet.window import mouse
 
 #创建浮动窗口
