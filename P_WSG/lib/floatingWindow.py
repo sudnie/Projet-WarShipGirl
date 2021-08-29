@@ -27,6 +27,7 @@ class createFloatWindowLayer(cocos.layer.ColorLayer):
         self.add(inWindow)
         self.add(txetLabel)
         self.position = x, y
+        self.z = -1
         
     def mouse_on_layer(self,x,y):
         #判断鼠标是否点在了layer上
@@ -34,15 +35,21 @@ class createFloatWindowLayer(cocos.layer.ColorLayer):
                 return True
             return False
 
-#    def on_mouse_press(self, x, y, button, modifiers):
-#        #鼠标是否点下
-#        if button & mouse.LEFT:
-#            if self.mouse_on_layer(x,y):
-#                print('鼠标在上面')
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        #鼠标是否点下
+        if button & mouse.LEFT:
+            if self.mouse_on_layer(x,y):
+                self.z = 0
+                print("updata z")
+                print(self.z)
+            else:
+                self.z = -1
+    
     #窗口拖动相关
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         if buttons & mouse.LEFT:
-            if self.mouse_on_layer(x,y):
+            if self.mouse_on_layer(x,y) and self.z == 0:
                 if self.x+self.width < director.window.width and self.y+self.height < director.window.height and self.x > 0 and self.y > 0:
                     self.do(MoveTo((self.x+dx, self.y+dy),0))
                 else:
