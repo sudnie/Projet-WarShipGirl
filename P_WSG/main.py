@@ -1,7 +1,6 @@
-import cocos
-from cocos.director import director
 import lib.floatingWindow
-
+from cocos.director import director
+import cocos
 
 
 
