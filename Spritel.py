@@ -18,11 +18,14 @@ class Mover(cocos.actions.Move):
         vel_x = (keyboard[key.RIGHT] - keyboard[key.LEFT]) * 500
         vel_y = (keyboard[key.UP] - keyboard[key.DOWN]) * 500
         self.target.velocity = (vel_x, vel_y)
+
+        #设置卷轴焦点
+        scorller.set_focus(self.target.x, self.target.y)
         
 
 
-
-class Spritel(cocos.layer.Layer):
+#创建一个卷轴图层
+class player(cocos.layer.ScrollableLayer):
     def __init__(self):
         super().__init__()
 
@@ -38,7 +41,7 @@ class Spritel(cocos.layer.Layer):
         
         #将动图加入图层（laeyr）
         spr = cocos.sprite.Sprite(anim)
-        spr.position = 400, 360
+        #spr.position = 400, 360
 
         #设定图层速度
         spr.velocity = (0,0)
@@ -55,11 +58,23 @@ class Spritel2(cocos.sprite.Sprite):
         
         self.position = 600, 360
 
+#创建卷轴大小
 class BackgroundLayer(cocos.layer.ScrollableLayer):
-    def __init__(self, parallax):
-        super().__init__(parallax=parallax)
+    def __init__(self):
+        super().__init__()
 
+        bg = cocos.sprite.Sprite("img/BG.png")
+        #设定背景锚点
+        #bg.position = (1500, 600)
+        bg.position =(bg.width//2, bg.height//2)
 
+        #设定背景卷轴大小
+        #self.px_width = 3000
+        #self.px_height = 1200
+        self.px_width, self.px_height = bg.width, bg.height
+
+        
+        self.add(bg)
 
 if __name__ == '__main__':
 
@@ -70,15 +85,19 @@ if __name__ == '__main__':
     #读取键盘
     director.window.push_handlers(keyboard)
     
-
-    
-    spr1_layer = Spritel()
+    player = player()
     spr2_layer = Spritel2()
+    bg_layer = BackgroundLayer()
+
+    #定义卷轴，并将两个卷轴图层加入卷轴
+    scorller = cocos.layer.ScrollingManager()
+    scorller.add(bg_layer)
+    scorller.add(player)
     
     #创建新的scene
     test_scene = cocos.scene.Scene()
     #将layer加入scenne
-    test_scene.add(spr1_layer, name="1")
+    test_scene.add(scorller)
     #test_scene.add(spr2_layer, name="player")
     
 
