@@ -2,15 +2,13 @@
 学习用文件
 2021/8/29
 """
-
-
 import cocos
 from cocos.director import director
 import pyglet
 from pyglet.window import key
 
 
-#移动class
+#移动动作class
 class Mover(cocos.actions.Move):
     def step(self, dt):
         super().step(dt)
@@ -24,7 +22,7 @@ class Mover(cocos.actions.Move):
         
 
 
-#创建一个卷轴图层
+#创建一个卷轴图层（精灵）
 class player(cocos.layer.ScrollableLayer):
     def __init__(self):
         super().__init__()
@@ -49,17 +47,9 @@ class player(cocos.layer.ScrollableLayer):
         spr.do(Mover())
 
         self.add(spr)   
-        
 
-class Spritel2(cocos.sprite.Sprite):
-    def __init__(self):
-        #sprite可以直接读取图像
-        super().__init__("img/01.png")
-        
-        self.position = 600, 360
-
-#创建卷轴大小
-class BackgroundLayer(cocos.layer.ScrollableLayer):
+#创建卷轴图片背景
+class BackgroundLayerIMG(cocos.layer.ScrollableLayer):
     def __init__(self):
         super().__init__()
 
@@ -76,6 +66,21 @@ class BackgroundLayer(cocos.layer.ScrollableLayer):
         
         self.add(bg)
 
+class Spritel2(cocos.sprite.Sprite):
+    def __init__(self):
+        #sprite可以直接读取图像
+        super().__init__("img/01.png")
+        
+        self.position = 600, 360
+
+#创建卷轴tiles图层（背景）
+class BackgroundLayer():
+    def __init__(self):
+        #读取tiled文件
+        bg = cocos.tiles.load("map/map.tmx")
+        #读取并定义tiles图层
+        self.layer1 = bg['layer1']
+
 if __name__ == '__main__':
 
     director.init(1280,720,'new')
@@ -85,14 +90,14 @@ if __name__ == '__main__':
     #读取键盘
     director.window.push_handlers(keyboard)
     
-    player = player()
+    player_layer = player()
     spr2_layer = Spritel2()
     bg_layer = BackgroundLayer()
 
     #定义卷轴，并将两个卷轴图层加入卷轴
     scorller = cocos.layer.ScrollingManager()
-    scorller.add(bg_layer)
-    scorller.add(player)
+    scorller.add(bg_layer.layer1)
+    scorller.add(player_layer)
     
     #创建新的scene
     test_scene = cocos.scene.Scene()
