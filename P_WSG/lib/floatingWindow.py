@@ -2,30 +2,32 @@ from ctypes import create_string_buffer
 import cocos
 from cocos.actions.interval_actions import MoveBy, MoveTo
 from cocos.director import director
+from cocos.layer.util_layers import ColorLayer
 from pyglet.window import mouse
 
 
-class createWindowLayer(cocos.layer.ColorLayer):
+class createFloatWindowLayer(cocos.layer.ColorLayer):
     is_event_handler = True
     dx = 0
     dy = 0
-    def __init__(self,size_x,size_y,name):
-        super(createWindowLayer,self).__init__(195,195,195,255,width=size_x,height=size_y)
+    def __init__(self,x,y,size_width,size_height,name):
+        super(createFloatWindowLayer,self).__init__(195,195,195,255,width=size_width,height=size_height)
 
-        inWindow = cocos.layer.ColorLayer(100,100,100,255,width=size_x-10,height=size_y-50)
+        inWindow = cocos.layer.ColorLayer(100,100,100,255,width=size_width-10,height=size_height-50)
         inWindow.position = 5,0
         
         txetLabel = cocos.text.Label(
             name,
-            font_size = 30,
+            font_size = 20,
             anchor_x = "center",
-            anchor_y = "center"
+            anchor_y = "center",
+            color = (0, 0, 0, 255)
         )
         txetLabel.position = self.width//2 , self.height-25
         
         self.add(inWindow)
         self.add(txetLabel)
-        self.position = 500, 200
+        self.position = x, y
         
     def mouse_on_layer(self,x,y):
         #判断鼠标是否点在了layer上
@@ -42,8 +44,6 @@ class createWindowLayer(cocos.layer.ColorLayer):
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         if buttons & mouse.LEFT:
             if self.mouse_on_layer(x,y):
-                dx = dx * 2
-                dy = dy * 2
                 if self.x+self.width < director.window.width and self.y+self.height < director.window.height and self.x > 0 and self.y > 0:
                     self.do(MoveTo((self.x+dx, self.y+dy),0))
                 else:
@@ -69,7 +69,7 @@ class windowMover(cocos.actions.Move):
 if __name__ == "__main__":
     director.init(1280, 720, 'warShipGirl')
 
-    WindowLayer = createWindowLayer(300,400,"实验性窗口")
+    WindowLayer = createFloatWindowLayer(10,20,300,400,"实验性窗口")
 
     main_scene = cocos.scene.Scene()
     main_scene.add(WindowLayer)
