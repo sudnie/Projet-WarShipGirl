@@ -44,7 +44,7 @@ class createFloatWindowLayer(cocos.layer.ColorLayer):
                 print("updata z")
                 print(self.z)
             else:
-                self.z = -1
+                self.z = self.z-1
     
     #窗口拖动相关
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
