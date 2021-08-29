@@ -5,17 +5,18 @@ from cocos.director import director
 from cocos.layer.util_layers import ColorLayer
 from pyglet.window import mouse
 
-
+#创建浮动窗口
 class createFloatWindowLayer(cocos.layer.ColorLayer):
     is_event_handler = True
     dx = 0
     dy = 0
+    #xy坐标，宽，高，名
     def __init__(self,x,y,size_width,size_height,name):
+        #定义窗口
         super(createFloatWindowLayer,self).__init__(195,195,195,255,width=size_width,height=size_height)
-
         inWindow = cocos.layer.ColorLayer(100,100,100,255,width=size_width-10,height=size_height-50)
         inWindow.position = 5,0
-        
+        #定义窗口名
         txetLabel = cocos.text.Label(
             name,
             font_size = 20,
@@ -40,7 +41,7 @@ class createFloatWindowLayer(cocos.layer.ColorLayer):
 #        if button & mouse.LEFT:
 #            if self.mouse_on_layer(x,y):
 #                print('鼠标在上面')
-
+    #窗口拖动相关
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         if buttons & mouse.LEFT:
             if self.mouse_on_layer(x,y):
