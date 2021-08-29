@@ -35,7 +35,7 @@ class player(cocos.layer.ScrollableLayer):
         #print(img_grid[0:])
 
         #将网格图片变成gif动图
-        anim = pyglet.image.Animation.from_image_sequence(img_grid[0:], 0.1, loop=True)
+        anim = pyglet.image.Animation.from_image_sequence(img_grid[0:], 0.05, loop=True)
         
         #将动图加入图层（laeyr）
         spr = cocos.sprite.Sprite(anim)
