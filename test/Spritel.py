@@ -54,7 +54,7 @@ class BackgroundLayerIMG(cocos.layer.ScrollableLayer):
         super().__init__()
 
         bg = cocos.sprite.Sprite("img/BG.png")
-        #设定背景锚点
+        #设定背景位置
         #bg.position = (1500, 600)
         bg.position =(bg.width//2, bg.height//2)
 
