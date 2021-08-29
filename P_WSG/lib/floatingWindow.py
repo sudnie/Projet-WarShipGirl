@@ -42,6 +42,8 @@ class createWindowLayer(cocos.layer.ColorLayer):
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         if buttons & mouse.LEFT:
             if self.mouse_on_layer(x,y):
+                dx = dx * 2
+                dy = dy * 2
                 if self.x+self.width < director.window.width and self.y+self.height < director.window.height and self.x > 0 and self.y > 0:
                     self.do(MoveTo((self.x+dx, self.y+dy),0))
                 else:
