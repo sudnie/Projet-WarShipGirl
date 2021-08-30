@@ -58,6 +58,8 @@ class mainManu(cocos.menu.Menu):
 
         self.create_menu(items)
 
+
+    #这下面分别是不同窗口的开关控制函数
     def window_1(self):
         if new_window.visible == True:
             new_window.closeWindow()
