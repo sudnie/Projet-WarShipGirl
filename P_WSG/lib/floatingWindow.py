@@ -1,3 +1,4 @@
+from os import close
 import cocos
 from cocos.actions.interval_actions import MoveTo
 from cocos.director import director
@@ -10,6 +11,7 @@ class createFloatWindowLayer(cocos.layer.ColorLayer):
     dy = 0
     #xy坐标，宽，高，名
     def __init__(self,x,y,size_width,size_height,name):
+        self.show = True
         #定义窗口
         super(createFloatWindowLayer,self).__init__(195,195,195,255,width=size_width,height=size_height)
         inWindow = cocos.layer.ColorLayer(100,100,100,255,width=size_width-10,height=size_height-50)
@@ -24,8 +26,14 @@ class createFloatWindowLayer(cocos.layer.ColorLayer):
         )
         txetLabel.position = self.width//2 , self.height-25
         
+        closeWindowButton = cocos.layer.ColorLayer(214, 0, 10, 255, width = 25, height=25)
+        closeWindowButton.position = self.width - 25, 0
+    
+
+
         self.add(inWindow)
         self.add(txetLabel)
+        self.add(closeWindowButton)
         self.position = x, y
         self.z = -1
         
@@ -33,8 +41,23 @@ class createFloatWindowLayer(cocos.layer.ColorLayer):
         #判断鼠标是否点在了layer上
             if x < self.x + self.width and x > self.x and y < self.y + self.height and y > self.y:
                 return True
+            else:
+                return False
+
+    def mouse_on_closeButton(self,mouse_x,mouse_y):
+        #判断xy位置是否在关闭按键上
+        #print(mouse_x >= self.x + self.width - 25, mouse_x <= self.x + self.width, mouse_y >= self.y, mouse_y <= self.y + 25)
+        if (mouse_x >= self.x + (self.width - 25) and mouse_x <= self.x + self.width) and (mouse_y >= self.y and mouse_y <= self.y + 25):
+            return True
+        else:
             return False
 
+    def mouse_on_windowtitel(self,mouse_x,mouse_y):
+        #鼠标是否在窗口标题
+        if (mouse_x >= self.x and mouse_x <= self.x + self.width) and (mouse_y >= self.y + self.height - 50 and mouse_y <= self.y + self.height):
+            return True
+        else:
+            return False
 
     def on_mouse_press(self, x, y, button, modifiers):
         #鼠标是否点下
@@ -43,24 +66,36 @@ class createFloatWindowLayer(cocos.layer.ColorLayer):
                 self.z = 0
                 print("updata z")
                 print(self.z)
+                if self.mouse_on_closeButton(x,y):
+                    self.closeWindow()
             else:
                 self.z = self.z-1
     
     #窗口拖动相关
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         if buttons & mouse.LEFT:
-            if self.mouse_on_layer(x,y) and self.z == 0:
-                if self.x+self.width < director.window.width and self.y+self.height < director.window.height and self.x > 0 and self.y > 0:
-                    self.do(MoveTo((self.x+dx, self.y+dy),0))
-                else:
-                    if self.x+self.width >= director.window.width:
-                        self.do(MoveTo((self.x-4, self.y+dy),0))
-                    elif self.y+self.height >= director.window.height:
-                        self.do(MoveTo((self.x+dx, self.y-4),0))
-                    elif self.x <= 0:
-                        self.do(MoveTo((self.x+4, self.y+dy),0))
-                    elif self.y <= 0:
-                        self.do(MoveTo((self.x+dx, self.y+4),0))
+            #print(self.mouse_on_windowtitel(x,y))
+            if self.visible == True:
+                if self.mouse_on_windowtitel(x,y) and self.z == 0:
+                    if self.x+self.width < director.window.width and self.y+self.height < director.window.height and self.x > 0 and self.y > 0:
+                        dx = dx * 1.05
+                        dy = dy * 1.05
+                        self.do(MoveTo((self.x+dx, self.y+dy),0))
+                    else:
+                        if self.x+self.width >= director.window.width:
+                            self.do(MoveTo((self.x-4, self.y+dy),0))
+                        elif self.y+self.height >= director.window.height:
+                            self.do(MoveTo((self.x+dx, self.y-4),0))
+                        elif self.x <= 0:
+                            self.do(MoveTo((self.x+4, self.y+dy),0))
+                        elif self.y <= 0:
+                            self.do(MoveTo((self.x+dx, self.y+4),0))
+
+    def closeWindow(self):
+        self.visible = False
+
+    def showWindow(self):
+        self.visible = True
 
         
 class windowMover(cocos.actions.Move):
