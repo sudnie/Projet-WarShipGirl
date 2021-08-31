@@ -1,4 +1,3 @@
-from os import close
 import cocos
 from cocos.actions.interval_actions import MoveTo
 from cocos.director import director
@@ -13,7 +12,7 @@ class createFloatWindowLayer(cocos.layer.ColorLayer):
     def __init__(self,x,y,size_width,size_height,name):
         self.show = True
         #定义窗口
-        super(createFloatWindowLayer,self).__init__(195,195,195,255,width=size_width,height=size_height)
+        super(createFloatWindowLayer,self).__init__(242,255,245,170,width=size_width,height=size_height)
         inWindow = cocos.layer.ColorLayer(100,100,100,255,width=size_width-10,height=size_height-50)
         inWindow.position = 5,0
         #定义窗口名
