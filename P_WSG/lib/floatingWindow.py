@@ -1,3 +1,12 @@
+"""
+文件名：浮动窗口创建(floatingWindow.py)\n
+介绍：
+本文件用于创建基础浮动窗口对象。 \n
+使用方法：
+    createFloatWindowLayer()来创建对象即可。\n
+    例：
+        new_window = floatingWindow.createFloatWindowLayer(30, 103, 150, 200, "浮动窗口")
+"""
 import cocos
 from cocos.actions.interval_actions import MoveTo
 from cocos.director import director
@@ -5,11 +14,30 @@ from pyglet.window import mouse
 
 #创建浮动窗口
 class createFloatWindowLayer(cocos.layer.ColorLayer):
+    """
+    这是用于创建基础浮动窗口的对象
+    """
     is_event_handler = True
     dx = 0
     dy = 0
     #xy坐标，宽，高，名
     def __init__(self,x,y,size_width,size_height,name):
+        """
+        说明：
+            这是用于创建基础浮动窗口的方法
+            x: int
+                为窗口基础x轴位置
+            y: int
+                为窗口基础y轴位置
+            size_width: int
+                窗口的宽度(像素)
+            size_height: int
+                窗口的高度(像素)
+            name: str
+                窗口名称
+        """
+
+
         self.show = True
         #定义窗口
         super(createFloatWindowLayer,self).__init__(242,255,245,170,width=size_width,height=size_height)
