@@ -103,7 +103,7 @@ def get_scene():
     说明：
         这是用来获取场景的函数
         return: cocos.scene.Scene对象
-            返还场景对象
+            返回所属场景文件的场景对象
     """
     main_scene = cocos.scene.Scene()
     
