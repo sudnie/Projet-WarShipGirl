@@ -36,6 +36,7 @@ class backGrundIMG(cocos.layer.Layer):
 
     def on_mouse_press(self, x, y, button, modifiers):
         print(x,y)
+        #必须的两行，负责更新场景图层的前后顺序
         main_scene = reset_scene_data()
         director.replace(main_scene)
         
