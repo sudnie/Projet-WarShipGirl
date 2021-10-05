@@ -36,6 +36,8 @@ class backGrundIMG(cocos.layer.Layer):
 
     def on_mouse_press(self, x, y, button, modifiers):
         print(x,y)
+        main_scene = reset_scene_data()
+        director.replace(main_scene)
         
 class timeLog(cocos.layer.Layer):
     def __init__(self):
@@ -82,7 +84,7 @@ def updataTime():
 def reset_scene_data():
     global updataSceneList, timeUI
     main_scene = cocos.scene.Scene()
-    updataSceneList = [[backGrund,-100],[timeUI,1]]
+    updataSceneList = [[backGrund,-100],[timeUI,1],[new_window, new_window.z],[new_window2, new_window2.z]]
     for i in updataSceneList:
         main_scene.add(i[0],z = i[1])
         #print(i[1])
@@ -97,13 +99,14 @@ def get_scene():
     """
     main_scene = cocos.scene.Scene()
     
-    global updataSceneList, backGrund, timeUI, new_window2, new_window3, mainMenu
+    global updataSceneList, backGrund, timeUI, new_window, new_window2, mainMenu
 
     updataSceneList = []
     backGrund = backGrundIMG()
     timeUI = timeLog()
     #mainMenu = mainManu("主面板")
-
+    new_window = floatingWindow.createFloatWindowLayer(30, 103, 150, 200, "浮动窗口")
+    new_window2 = floatingWindow.createFloatWindowLayer(30, 140, 150, 200, "浮动窗口")
     main_scene = reset_scene_data()
     return main_scene
 
