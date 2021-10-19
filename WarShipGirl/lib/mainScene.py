@@ -10,7 +10,6 @@ from pyglet.window import mouse
 from cocos.actions.interval_actions import MoveTo
 import time 
 from cocos.actions import *
-import lib.newScene as newScene
 
 class backGrundIMG(cocos.layer.Layer):
     is_event_handler = True

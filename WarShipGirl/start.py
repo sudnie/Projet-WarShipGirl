@@ -3,10 +3,7 @@ from cocos.actions import *
 from cocos.director import director
 import pyglet
 import lib.mainScene
-import lib.newScene
-import threading
-import time
-
+import lib.strategyScene
 
 class backGrundIMG(cocos.layer.Layer):
     is_event_handler = True
@@ -50,7 +47,7 @@ class mainMenu(cocos.menu.Menu):
         director.push(lib.mainScene.get_scene())
 
     def changeScene2(self):
-        director.push(lib.newScene.get_scene())
+        director.push(lib.strategyScene.get_scene())
 
 def get_startScene():
     main_scene = cocos.scene.Scene()

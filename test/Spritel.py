@@ -28,7 +28,7 @@ class player(cocos.layer.ScrollableLayer):
         super().__init__()
 
         #pyglet读取图片
-        img = pyglet.image.load("img\Eship.png")
+        img = pyglet.image.load("img/Eship.png")
         #pyglet图片网格化
         img_grid = pyglet.image.ImageGrid(img, 1, 5, item_width=100, item_height=100)
 
