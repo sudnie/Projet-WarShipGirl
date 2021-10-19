@@ -86,7 +86,7 @@ class visualFocus(cocos.layer.ScrollableLayer):
         super().__init__(parallax=parallax)
 
         focus = cocos.sprite.Sprite("GFX/ui/visualFocus.png")
-        focus.position = (focus.width//2, focus.height//2)
+        focus.position = (0, 0)
         focus.velocity = (0,0)
         focus.do(VFMove())
 
@@ -96,7 +96,6 @@ class visualFocus(cocos.layer.ScrollableLayer):
         if key == 32:
             vfxy = self.get("vf").position
             print(vfxy)
-
             x = (vfxy[0]//32) * 32
             if vfxy[0]%32 <= 16:
                 pass
@@ -114,10 +113,10 @@ class visualFocus(cocos.layer.ScrollableLayer):
 class VFMove(cocos.actions.Move):
     def step(self, dt):
         super().step(dt)
-        vel_x = (keyboard[key.D] - keyboard[key.A]) * 500
-        vel_y = (keyboard[key.W] - keyboard[key.S]) * 500
+        vel_x = (keyboard[key.D] - keyboard[key.A]) * 100
+        vel_y = (keyboard[key.W] - keyboard[key.S]) * 100
         if keyboard[65505] == True:
-            vel_x, vel_y = vel_x * 2, vel_y * 2
+            vel_x, vel_y = vel_x * 10, vel_y * 10
         self.target.velocity = (vel_x, vel_y)
         #print(keyboard)
         #print(vel_x,vel_y)
@@ -143,12 +142,6 @@ class visualFocusText(cocos.layer.Layer):
         x = int(xy[0])
         y = int(xy[1])
         self.VFText.element.text = str(x)+"||"+str(y)
-
-
-class report(cocos.actions.Action):
-    def step(self, dt):
-        super().step(dt)
-        
 
 class backgroundLayer():
     def __init__(self) -> None:
