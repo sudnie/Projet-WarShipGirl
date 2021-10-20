@@ -13,7 +13,7 @@ from pyglet.window import key
 from pyglet.window import mouse
 
 class backGrundIMG(cocos.layer.Layer):
-    
+    is_event_handler = True
     bgw = 0
     bgh = 0
     def __init__(self):
@@ -36,12 +36,26 @@ class backGrundIMG(cocos.layer.Layer):
     #     #print(needX, needY)
     #     self.do(MoveTo((needX, needY), 0.10))
 
+    
+
+
+class replaceScene(cocos.layer.Layer):
+    """
+    说明：
+        用来负责更新窗口的前后顺序。
+    """
+    is_event_handler = True
+    def __init__(self):
+        super().__init__()
+        i = cocos.layer.ColorLayer(100,100,100,255,width=1280,height=720)
+        i.position = (0,0)
+        self.add(i)
+
     def on_mouse_press(self, x, y, button, modifiers):
-        print(x,y)
         #必须的两行，负责更新场景图层的前后顺序
         main_scene = reset_scene_data()
         director.replace(main_scene)
-        
+
 class mainMenu(cocos.menu.Menu):
     def __init__(self, title):
         super().__init__(title=title)
@@ -123,6 +137,7 @@ class VFMove(cocos.actions.Move):
         #print(self.target.position)
         #设置卷轴焦点
         scroller.set_focus(self.target.x, self.target.y)
+        
 
 class visualFocusText(cocos.layer.Layer):
     is_event_handler = True
@@ -151,8 +166,12 @@ class backgroundLayer():
 
 
 def reset_scene_data():
+    """
+    说明：
+        这个函数的用途是将图层按顺序进行渲染并回传Scene
+    """
     main_scene = cocos.scene.Scene()
-    updataSceneList = [[scroller,-100],[vftext, 0],[Cmenu, 1]]
+    updataSceneList = [[rpS,-101], [scroller,-100],[vftext, 0] ,[Cmenu, 1], [new_window, new_window.z], [new_window2, new_window2.z]]
     for i in updataSceneList:
         main_scene.add(i[0],z = i[1])
         #print(i[1])
@@ -167,13 +186,15 @@ def get_scene():
     """
     main_scene = cocos.scene.Scene()
     
-    global updataSceneList, backGrund, timeUI, Cmenu, keyboard, scroller, vftext
+    global rpS, updataSceneList, backGrund, Cmenu, keyboard, scroller, vftext, new_window, new_window2
     updataSceneList = []
 
     #设定键盘变量
     keyboard = key.KeyStateHandler()
     #读取键盘
     director.window.push_handlers(keyboard)
+
+    
 
     bgLayer = backgroundLayer()
     VFlayer = visualFocus()
@@ -184,6 +205,11 @@ def get_scene():
     scroller.add(VFlayer, name="vfl")
 
     vftext = visualFocusText()
+
+    new_window = floatingWindow.createFloatWindowLayer(30, 103, 150, 200, "浮动窗口1")
+    new_window2 = floatingWindow.createFloatWindowLayer(30, 140, 150, 200, "浮动窗口2")
+
+    rpS = replaceScene()
 
     # timeUI = timeLog()
     Cmenu = mainMenu("控制面板")

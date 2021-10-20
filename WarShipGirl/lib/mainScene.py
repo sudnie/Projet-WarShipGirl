@@ -12,7 +12,6 @@ import time
 from cocos.actions import *
 
 class backGrundIMG(cocos.layer.Layer):
-    is_event_handler = True
     bgw = 0
     bgh = 0
     def __init__(self):
@@ -34,12 +33,6 @@ class backGrundIMG(cocos.layer.Layer):
         needY = (((y/winH)*100)-50)+100
         #print(needX, needY)
         self.do(MoveTo((needX, needY), 0.10))
-
-    def on_mouse_press(self, x, y, button, modifiers):
-        print(x,y)
-        #必须的两行，负责更新场景图层的前后顺序
-        main_scene = reset_scene_data()
-        director.replace(main_scene)
         
 # class timeLog(cocos.layer.Layer):
 #     def __init__(self):
@@ -119,6 +112,24 @@ class mainMenu(cocos.menu.Menu):
     def changeScene(self):
         director.pop()
 
+class replaceScene(cocos.layer.Layer):
+    """
+    说明：
+        用来负责更新窗口的前后顺序。
+    """
+    is_event_handler = True
+    def __init__(self):
+        super().__init__()
+        i = cocos.layer.ColorLayer(100,100,100,255,width=1280,height=720)
+        i.position = (0,0)
+        self.add(i)
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        #必须的两行，负责更新场景图层的前后顺序
+        main_scene = reset_scene_data()
+        director.replace(main_scene)
+
+
 
 def updataTime():
     global atime
@@ -126,9 +137,13 @@ def updataTime():
     return atime
 
 def reset_scene_data():
+    """
+    说明：
+        这个函数的用途是将图层按顺序进行渲染并回传Scene
+    """
     global updataSceneList, timeUI
     main_scene = cocos.scene.Scene()
-    updataSceneList = [[backGrund,-100],[new_window, new_window.z],[new_window2, new_window2.z], [Menu, 1]]
+    updataSceneList = [[rpS,-101],[backGrund,-100],[new_window, new_window.z],[new_window2, new_window2.z], [Menu, 1]]
     for i in updataSceneList:
         main_scene.add(i[0],z = i[1])
         #print(i[1])
@@ -143,7 +158,7 @@ def get_scene():
     """
     main_scene = cocos.scene.Scene()
     
-    global updataSceneList, backGrund, timeUI, new_window, new_window2, Menu
+    global rpS, updataSceneList, backGrund, timeUI, new_window, new_window2, Menu
 
     updataSceneList = []
     backGrund = backGrundIMG()
@@ -151,6 +166,9 @@ def get_scene():
     Menu = mainMenu("控制面板")
     new_window = floatingWindow.createFloatWindowLayer(30, 103, 150, 200, "浮动窗口")
     new_window2 = floatingWindow.createFloatWindowLayer(30, 140, 150, 200, "浮动窗口")
+    
+    rpS = replaceScene()
+
     main_scene = reset_scene_data()
     return main_scene
 
