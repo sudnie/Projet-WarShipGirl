@@ -14,6 +14,7 @@ from cocos.actions import *
 class backGrundIMG(cocos.layer.Layer):
     bgw = 0
     bgh = 0
+    is_event_handler = True
     def __init__(self):
         super().__init__()
         bg = cocos.sprite.Sprite("GFX/backGrund/Main_light_bg_spring.png")
@@ -70,7 +71,7 @@ class backGrundIMG(cocos.layer.Layer):
 class mainMenu(cocos.menu.Menu):
     def __init__(self, title):
         super().__init__(title=title)
-
+        
         self.position = 400, 0
         #定义菜单列表
         items_x = 100
